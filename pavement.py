@@ -55,7 +55,7 @@ options(setup=setup_dict,
 
         ),
         FastQC=Bunch(
-            url='http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip',
+            url='https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip', # url='http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip',
             downloads=path('pathdiscov/download'),
             installdir=join(sys.prefix,'lib')
         ),
@@ -327,8 +327,9 @@ def refRay(options):
     elif os.path.isdir("/usr/lib/openmpi"):
         sh('cd %s; test ! -d ray && tar -xzvf ray.tar.gz; test ! -d RayPlatform && tar -xzvf RayPlatform.tar.gz; which mpicxx && mpicxx=$(which mpicxx) || mpicxx=/usr/lib64/openmpi/bin/mpicxx; export LD_LIBRARY_PATH=/usr/lib/openmpi:/usr/lib/openmpi/lib:$LD_LIBRARY_PATH; export PATH=$PATH:/usr/lib/openmpi/bin; cd %s; make PREFIX=build2000 MPICXX=$mpicxx' % (src,sfile))
     else:
+        sh('cd %s; test ! -d ray && tar -xzvf ray.tar.gz; test ! -d RayPlatform && tar -xzvf RayPlatform.tar.gz; which mpicxx && mpicxx=$(which mpicxx) || mpicxx=$(which mpicxx); export LD_LIBRARY_PATH=/usr/lib64/openmpi:/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH; cd %s;make PREFIX=build2000 MPICXX=$mpicxx;' % (src,sfile))
         info("Ray is not installed, ... please install `openmpi and openmpi-devel` and try again")
-        sys.exit()
+        # sys.exit()
 
 @task
 def perl_modules(options):
@@ -367,7 +368,8 @@ def installSnap(options):
         currwd = os.getcwd()
         sfile = path(currwd) / options.snap.sfile
         ddir = dirname(sfile)
-        sh('(cd %s; git clone https://github.com/amplab/snap.git; cd snap;git checkout v0.15; make)' %(ddir))
+        # sh('(cd %s; git clone https://github.com/amplab/snap.git; cd snap;git checkout v0.15; make)' %(ddir))
+        sh('(cd %s; git clone https://github.com/amplab/snap.git; cd snap;git checkout v2.0.5; make; cp snap-aligner snap)' %(ddir))
 
 @task
 def modifyBashRC():
@@ -427,7 +429,8 @@ def install_other_dependencies():
 
 @task
 def install_python_dependencies():
-    sh('pip install -r requirements-dev.txt --download-cache pathdiscov/download/.pip_cache')
+    #sh('pip install -r requirements-dev.txt --download-cache pathdiscov/download/.pip_cache')
+    sh('pip install -r requirements-dev.txt ')
 
 @task
 @needs('install_dependencies')
