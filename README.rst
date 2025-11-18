@@ -5,6 +5,7 @@ Installation
 ------------
 
 See `Installation <docs/source/install.rst>`_
+See both docs/source/install.rst and the updated supplement ./INSTALL-NOTES.md
 
 Configuration
 -------------
