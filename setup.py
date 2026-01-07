@@ -320,6 +320,7 @@ setup_dict = dict(
 		'pathdiscov/iterative_blast_phylo/taxid2queryid.pl',
 		'pathdiscov/iterative_blast_phylo/weighted_count.pl',
         'pathdiscov/orf_filter/orf_filter.pl',
+		'pathdiscov/iterative_blast_phylo/add_taxids.py'
     ] + glob('pathdiscov/download/bowtie2/bowtie2-*') +
         glob('pathdiscov/download/blast-2.2.28/bin/*') +
         glob('pathdiscov/download/prinseq-lite-0.20.3/*.pl') +
